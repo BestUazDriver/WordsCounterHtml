@@ -9,13 +9,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StatisticServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path=req.getParameter("folder");
         Map<String, Integer> counterMap = new StatisticServlet().counter(path);
-        List<String> words=counterMap.keySet().stream().toList();
+        Set<String> keySet=counterMap.keySet();
+        List<String> words=keySet.stream().collect(Collectors.toList());
         String htmlResponse="<h1>Count statistics according to file.txt on directory from your computer: "+path+ "<b1><h1>";
         resp.setContentType("text/html");
         resp.getWriter().println(htmlResponse);
